@@ -40,9 +40,7 @@ class ECurve(object):
 
     def IsOnCurveCheck(self, a: ECPoint) -> bool:
 
-
         # left = ( (a.x ** 3) + (self.a * a.x) + self.b - (a.y ** 2) )
-
         modular = ModArith()
         left = modular.get_x_power_optimal(a.x, 3, self.mod)
         A = self.a * a.x
@@ -68,7 +66,7 @@ class ECurve(object):
         if( (cond_a and cond_b) or skipCheck == True):
 
             lmbd = (b.y - a.y) / (b.x - a.x)
-            x = (lmbd * lmbd) - a.x - b.x
+            x = (lmbd ** 2) - a.x - b.x
             y = lmbd * (a.x - x) - a.y
 
             return self.ECPointGen(x, y)
@@ -80,7 +78,7 @@ class ECurve(object):
 
         modular = ModArith()
 
-        if(a.x == b.x and a.y == b.y):
+        if a.x == b.x and a.y == b.y:
 
             beta = (3 * a.x * a.x + self.a) * modular.get_x_bin(2 * a.y, self.mod)
 
@@ -113,8 +111,8 @@ class ECurve(object):
 
         if(cond_a or skipCheck == True):
 
-            lmbd = ( (3 * (a.x * a.x) ) + self.a ) / (2 * a.y)
-            x = (lmbd * lmbd) - (2 * a.x)
+            lmbd = ( (3 * (a.x ** 2) ) + self.a ) / (2 * a.y)
+            x = (lmbd ** 2) - (2 * a.x)
             y = lmbd * (a.x - x) - a.y
 
             return self.ECPointGen(x, y)
